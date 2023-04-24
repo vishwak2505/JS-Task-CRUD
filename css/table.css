@@ -1,0 +1,106 @@
+.album{
+    width: 85%;
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.album::-webkit-scrollbar{
+    width: 1px;
+}
+.album::-webkit-scrollbar-thumb{
+    background: #9fb5e566;
+}
+
+.album-table-head{
+    height: 2vh;
+    width: 85%;
+    font-size: 2vh;
+    background-color: rgba(96, 98, 90, 67%);
+}
+
+.head-title{
+    display: inline-block;
+    height: 100%;
+}
+
+.album-table{
+    width: 100%;
+}
+
+.album-table-oddrow{
+    background-color: aliceblue;
+    height: 5vh;
+}
+
+.album-table-evenrow{
+    background-color: rgb(186, 201, 214);
+    height: 5vh;
+}
+
+.album-table-id{
+    text-align: center;
+    width: 10%;
+}
+
+.album-table-userid{
+    text-align: center;
+    width: 10%;
+}
+
+.album-table-title{
+    padding-left: 1%;
+    width: 40%;
+}
+
+.album-table-options{
+    width: 10%;
+    text-align: center;
+}
+
+.sort-options{
+    height: 100%;
+    margin: 0%;
+    position: relative;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    right: 5% 
+}
+
+.sort-button{
+    width: 2vw;
+    height: 1.5vh;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5vh;
+    background-color: rgba(0, 88, 240, 0);
+    border: none;
+    cursor: pointer;
+}
+
+.sort-button:hover{
+    opacity: 50%;
+}
+
+.view-user, .update-user, .delete-user{
+    border: none;
+    margin: 1%;
+    background-color: rgba(255, 255, 255, 0);
+    cursor: pointer;
+}
+
+.fa-eye{
+    color: rgb(13, 89, 11);
+}
+
+.fa-pen{
+    color: rgb(3, 47, 47);
+}
+
+.fa-trash{
+    color: rgb(133, 7, 7);
+}
+
+.fa-eye:hover, .fa-pen:hover, .fa-trash:hover{
+    color: aqua;
+}

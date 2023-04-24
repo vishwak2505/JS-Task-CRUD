@@ -1,0 +1,153 @@
+body{
+    background-color: rgba(155, 231, 201, 0.2);
+    width: 100%;
+    margin: 0;
+}
+
+.nav-bar{
+    background-color: rgba(39, 36, 36, 0.7);
+    width: 100%;
+    height: 4vh;
+    position: fixed;
+    text-align: center;
+    font-size: 3vh;
+    margin: 0;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 8vh;
+    height: 85vh;
+    width: 100%;
+}
+
+.block{
+    position: relative;
+    margin: 1%;
+    height: 4vh;
+    width: 85%;
+}
+
+.block-left{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-left: 2%;
+    border-radius: 25px;
+    height: 100%;
+    width: 25vw;
+    background-color: rgb(255, 255, 255);
+}
+
+.search-form{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 100%;
+    width: 95%;
+}
+
+.block-left-input{
+    background-color: rgba(255, 255, 255, 1);
+    padding: 0;
+    border: none;
+    height: 90%;
+    width: 85%;
+    text-align: center;
+    font-size: 1vw;
+    color: #000000;
+}
+
+.block-left-input:focus{
+    outline: none;
+}
+
+.block-left ::placeholder{
+    color: rgb(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 1vw;
+}
+
+.submit-search{
+    background-color: #ffffff;
+    padding: 0;
+    border: none;
+    height: 90%;
+    font-size: 1vw;
+    width: 15%;
+    cursor: pointer;
+}
+
+.submit-search:hover{
+    opacity: 75%;
+}
+
+.block-right{
+    display: flex;
+    position: absolute;
+    right: 2%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 20px;
+    height: 100%;
+    width: 10vw;
+    font-size: 1vw;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.create-album{
+    background-color: rgb(255, 255, 255);
+    color: rgb(4, 23, 38);
+    border: none;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 1vw;
+    cursor: pointer;
+    font-weight: bold;
+}
+.create-album:hover{
+    background-color: #000000;
+    color: rgb(246, 247, 243);
+}
+
+.content-table{
+    position: relative;
+}
+
+.load-button{
+    --color: rgb(4, 23, 38);
+    background-color: rgb(255, 255, 255);
+    color: var(--color);
+    margin-top: 5px;
+    height: 5%;
+    width: 20vh;
+    border: 1px solid;
+    border-color: var(--color);
+    border-radius: 20px;
+    font-size: 1vw;
+    cursor: pointer;
+}
+
+.load-button:hover{
+    opacity: 85%;
+    background-color: #000000;
+    color: rgb(246, 247, 243);
+}
+
+.display-none{
+    display: none;
+}  
+
+.blur-background{
+    filter: blur(4px);
+}

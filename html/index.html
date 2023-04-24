@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album</title>
+    <script src="https://kit.fontawesome.com/711107b604.js" crossorigin="anonymous"></script>
+    <script src="../js/main.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/popup.css">
+    <link rel="stylesheet" href="../css/table.css">
+    <link rel="stylesheet" href="../css/progress.css">
+</head>
+<body>
+    <div class="page">
+        <div class="nav-bar">Albums</div>
+        <div class="content">
+            <div class="block">
+                <div class="block-left">
+                    <form action="" class="search-form" onsubmit="return false;">
+                        <input type="text" id="search" class="block-left-input" placeholder="Search by item title"/><button type="submit" onclick="searchAlbum()" class="submit-search" id="submitSearch"><i class="search-icon fa-solid fa-magnifying-glass"></i></button>
+                    </form>       
+                </div>
+                <div class="block-right">
+                        <button type="submit" class="create-album" id="createAlbum" onclick="create()">Create</button>
+                </div>
+            </div>
+            <table class="album-table-head">
+                <tr>
+                    <th class="album-table-id">
+                        <div class="head-title">
+                            ID
+                        </div>
+                        <div class="sort-options">
+                            <button class="sort-button asc" id="sortIdAsc" onclick="sortIdAsc()"><i class="sort-icon fa-solid fa-sort-up"></i></button>
+                            <button class="sort-button desc" id="sortIdDesc" onclick="sortIdDesc()"><i class="sort-icon fa-solid fa-caret-down"></i></button>
+                        </div>
+                    </th>
+                    <th class="album-table-userid">
+                        <div class="head-title">
+                            User ID
+                        </div>
+                        <div class="sort-options">
+                            <button class="sort-button asc" id="sortUserIdAsc" onclick="sortUserIdAsc()"><i class="sort-icon fa-solid fa-sort-up"></i></button>
+                            <button class="sort-button desc" id="sortUserIdDesc" onclick="sortUserIdDesc()"><i class="sort-icon fa-solid fa-caret-down"></i></button>
+                        </div> 
+                    </th>
+                    <th class="album-table-title">
+                        <div class="head-title">
+                            Title
+                        </div>
+                        <div class="sort-options">
+                            <button class="sort-button asc" id="sortTitleAsc" onclick="sortTitleAsc()"><i class="sort-icon fa-solid fa-sort-up"></i></button>
+                            <button class="sort-button desc" id="sortTitleDesc" onclick="sortTitleDesc()"><i class="sort-icon fa-solid fa-caret-down"></i></button>
+                        </div> 
+                    </th>
+                    <th class="album-table-options">
+                        <div class="head-title">
+                            Options
+                        </div>
+                    </th>
+                </tr>
+            </table> 
+            <div class="album">
+                <table class="album-table">
+                </table> 
+            </div>
+            <button class="load-button" onclick="loadMore()">Load More...</button>
+        </div>
+    </div> 
+    <div class="add-album display-none">
+        <marquee direction="right" scrollamount="50" class="add-progress progress display-none">
+            <div class="bar"></div>
+        </marquee>
+        <button onclick="closePopup('add-album')" class="close-pop"><i class="fa-regular fa-circle-xmark"></i></button>
+        <img class="create-img" src="../images/create.png" alt="Create"> 
+        <form action="" class="add-form" onsubmit="return false;">
+            <input type="number" class="add-form-input" id="userID" placeholder="User ID"/>
+            <input type="text" class="add-form-input" id="title" placeholder="Title"/><br>
+            <button type="submit" class="submit-add" id="submitAdd" onclick="addAlbum()">Add Album</button>
+        </form>
+    </div>
+    <div class="view-album display-none">
+        <button onclick="closePopup('view-album')" class="close-pop"><i class="fa-regular fa-circle-xmark"></i></button>
+        <div class="profile-album">
+            <img class="profile-photo" src="../images/user-profile.webp" alt="profile-photo">
+        </div>
+        <div class="album-content">
+        </div>
+    </div>
+    <div class="update-album display-none">
+        <marquee direction="right" scrollamount="50" class="update-progress progress display-none">
+            <div class="bar"></div>
+        </marquee>
+        <button onclick="closePopup('update-album')" class="close-pop"><i class="fa-regular fa-circle-xmark"></i></button>
+        <form action="#" class="update-form" onsubmit="return false;">
+            <h6 class="update-title">ID</h6><input type="text" class="update-form-input update-id-disable" name="ID" id="id" readonly /><br>
+            <h6 class="update-title">User ID</h6><input type="text" class="update-form-input" id="userID" name="userID" required /><br>
+            <h6 class="update-title">Title</h6><input type="text" name="title" class="update-form-input" id="title" required /><br>
+            <button type="submit" class="submit-update" id="submitUpdate" onclick="updateAlbum()">Update Album</button>
+        </form>
+    </div>
+    <div class="delete-album display-none">
+        <marquee direction="right" scrollamount="50" class="delete-progress progress display-none">
+            <div class="bar"></div>
+        </marquee>
+        <div class="album-delete">
+        </div>
+        <div class="delete-buttons-bar">
+            <button class="delete-button" onclick="deleteAlbum()">Delete</button>
+            <button class="cancel-button" onclick="closePopup('delete-album')">Cancel</button>
+        </div>
+    </div>
+    <div class="loader">
+        <div class="loader-bar display-none"></div>
+    </div> 
+</body>
+</html>
+<!---->
