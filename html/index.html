@@ -7,6 +7,7 @@
     <title>Album</title>
     <script src="https://kit.fontawesome.com/711107b604.js" crossorigin="anonymous"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/validate.js"></script>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/popup.css">
     <link rel="stylesheet" href="../css/table.css">
@@ -75,9 +76,9 @@
         </marquee>
         <button onclick="closePopup('add-album')" class="close-pop"><i class="fa-regular fa-circle-xmark"></i></button>
         <img class="create-img" src="../images/create.png" alt="Create"> 
-        <form action="" class="add-form" onsubmit="return false;">
-            <input type="number" class="add-form-input" id="userID" placeholder="User ID"/>
-            <input type="text" class="add-form-input" id="title" placeholder="Title"/><br>
+        <form action="#" class="add-form" onsubmit="return false;">
+            <input type="number" class="user-id add-form-input" id="userID" onfocusout="validateInput('user-id')" placeholder="User ID" focused required/>
+            <input type="text" class="title add-form-input" id="title" onfocusout="validateInput('title')" placeholder="Title" required/><br>
             <button type="submit" class="submit-add" id="submitAdd" onclick="addAlbum()">Add Album</button>
         </form>
     </div>
@@ -96,8 +97,8 @@
         <button onclick="closePopup('update-album')" class="close-pop"><i class="fa-regular fa-circle-xmark"></i></button>
         <form action="#" class="update-form" onsubmit="return false;">
             <h6 class="update-title">ID</h6><input type="text" class="update-form-input update-id-disable" name="ID" id="id" readonly /><br>
-            <h6 class="update-title">User ID</h6><input type="text" class="update-form-input" id="userID" name="userID" required /><br>
-            <h6 class="update-title">Title</h6><input type="text" name="title" class="update-form-input" id="title" required /><br>
+            <h6 class="update-title">User ID</h6><input type="text" class="update-user-id update-form-input" id="userID" name="userID" onfocusout="validateInput('update-user-id')" required /><br>
+            <h6 class="update-title">Title</h6><input type="text" name="title" class="update-user-title update-form-input" id="title" onfocusout="validateInput('update-user-title')" required /><br>
             <button type="submit" class="submit-update" id="submitUpdate" onclick="updateAlbum()">Update Album</button>
         </form>
     </div>
