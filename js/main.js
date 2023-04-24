@@ -259,10 +259,10 @@ function updateAlbum() {
         tags = form.children;
 
     Array.from(tags).forEach(tag => {
-        if (tag.id == 'userID' && tag.value != album.userId){
+        if (tag.id == 'userID' && tag.value != '' && tag.value != album.userId){
             album.userId = +tag.value;
             flag = 1;
-        } else if (tag.id == 'title' && tag.value != album.title){
+        } else if (tag.id == 'title' && tag.value != '' && tag.value != album.title){
             album.title = tag.value.toLowerCase();
             flag = 1;
         }         

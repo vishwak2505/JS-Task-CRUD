@@ -229,3 +229,7 @@ input::-webkit-inner-spin-button {
 .cancel-button:hover{
     border-color: rgb(95, 91, 91);
 }
+
+.wrong-input{
+    border-bottom: solid 2px rgb(224, 8, 8);
+}
