@@ -12,19 +12,25 @@ function createButtons(album) { //pass the album object to create buttons
     let viewButton = document.createElement('BUTTON');
     viewButton.innerHTML = '<i class="fa-regular fa-eye"></i>'; 
     viewButton.classList.add('view-user');
-    viewButton.setAttribute('onclick', `viewUser(${JSON.stringify(album)})`);
+    viewButton.addEventListener('click', ()=> {
+        viewUser(album);
+    });
     buttons.push(viewButton);
 
     let updateButton = document.createElement('BUTTON');
     updateButton.innerHTML = '<i class="fa-solid fa-pen"></i>'; 
     updateButton.classList.add('update-user');
-    updateButton.setAttribute('onclick', `updateUser(${JSON.stringify(album)})`);
+    updateButton.addEventListener('click', ()=> {
+        updateUser(album);
+    });
     buttons.push(updateButton);
 
     let deleteButton = document.createElement('BUTTON');
     deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>'; 
     deleteButton.classList.add('delete-user');
-    deleteButton.setAttribute('onclick', `deleteUser(${JSON.stringify(album)})`);
+    deleteButton.addEventListener('click', ()=> {
+        deleteUser(album);
+    });
     buttons.push(deleteButton);
     return buttons;
 }
@@ -90,7 +96,7 @@ async function searchAlbum() {
     document.getElementsByClassName('page')[0].classList.add(popup);
     setTimeout( () => {
         closePopup('loader-bar');
-    }, 2000);
+    }, 1000);
     let title = document.getElementById('search').value;
     albumsDisplay = albums.filter((album) => album.title.includes(title));
     document.getElementsByClassName('album-table')[0].innerHTML = '';
@@ -99,6 +105,7 @@ async function searchAlbum() {
     if (albumsDisplay.length == 0) {
         document.getElementsByClassName('album-table')[0].innerHTML = 'No records found';
     } else {
+        document.getElementsByClassName('create-album')[0].classList.add(displayNone);
         albumsDisplay.map(createTable);
     }
 }
