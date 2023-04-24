@@ -6,31 +6,32 @@ let currentId;
 let url = "https://jsonplaceholder.typicode.com/albums";
 let flag = 0;
 let position = -20;
-
+let sortingFields = {
+    AscId: false,
+    DescId: false,
+    AscUserId: false,
+    DescUserId: false,
+    AscTitle: false,
+    DescTitle: false
+}
 function createButtons(album) { //pass the album object to create buttons 
     let buttons = [];
     let viewButton = document.createElement('BUTTON');
     viewButton.innerHTML = '<i class="fa-regular fa-eye"></i>'; 
     viewButton.classList.add('view-user');
-    viewButton.addEventListener('click', ()=> {
-        viewUser(album);
-    });
+    viewButton.addEventListener('click', () => viewUser(album));
     buttons.push(viewButton);
 
     let updateButton = document.createElement('BUTTON');
     updateButton.innerHTML = '<i class="fa-solid fa-pen"></i>'; 
     updateButton.classList.add('update-user');
-    updateButton.addEventListener('click', ()=> {
-        updateUser(album);
-    });
+    updateButton.addEventListener('click', () => updateUser(album));
     buttons.push(updateButton);
 
     let deleteButton = document.createElement('BUTTON');
     deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>'; 
     deleteButton.classList.add('delete-user');
-    deleteButton.addEventListener('click', ()=> {
-        deleteUser(album);
-    });
+    deleteButton.addEventListener('click', () => deleteUser(album));
     buttons.push(deleteButton);
     return buttons;
 }
@@ -92,12 +93,17 @@ function create() {
 }
 
 async function searchAlbum() {
+    let title = document.getElementById('search').value;
+    if (title.length <= 2) {
+
+        return;
+    }
+    document.getElementsByClassName('create-album')[0].classList.add(displayNone);
     document.getElementsByClassName('loader-bar')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
     setTimeout( () => {
         closePopup('loader-bar');
     }, 1000);
-    let title = document.getElementById('search').value;
     albumsDisplay = albums.filter((album) => album.title.includes(title));
     document.getElementsByClassName('album-table')[0].innerHTML = '';
     document.getElementsByClassName('load-button')[0].classList.remove(displayNone);
@@ -105,7 +111,6 @@ async function searchAlbum() {
     if (albumsDisplay.length == 0) {
         document.getElementsByClassName('album-table')[0].innerHTML = 'No records found';
     } else {
-        document.getElementsByClassName('create-album')[0].classList.add(displayNone);
         albumsDisplay.map(createTable);
     }
 }
@@ -117,6 +122,7 @@ function loadMore() {
         closePopup('loader-bar');
     }, 1000); 
     document.getElementById('search').value = '';
+    document.getElementsByClassName('create-album')[0].classList.remove(displayNone);
     document.getElementsByClassName('load-button')[0].innerHTML = 'Load More...';
     document.getElementsByClassName('album-table')[0].innerHTML = '';
     position -= 20;
