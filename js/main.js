@@ -7,29 +7,29 @@ let url = "https://jsonplaceholder.typicode.com/albums";
 let flag = 0;
 let position = -20;
 
-function createButtons(album) {
+function createButtons(album) { //pass the album object to create buttons 
     let buttons = [];
     let viewButton = document.createElement('BUTTON');
     viewButton.innerHTML = '<i class="fa-regular fa-eye"></i>'; 
     viewButton.classList.add('view-user');
-    viewButton.setAttribute('onclick', `viewUser(${album.id})`);
+    viewButton.setAttribute('onclick', `viewUser(${JSON.stringify(album)})`);
     buttons.push(viewButton);
 
     let updateButton = document.createElement('BUTTON');
     updateButton.innerHTML = '<i class="fa-solid fa-pen"></i>'; 
     updateButton.classList.add('update-user');
-    updateButton.setAttribute('onclick', `updateUser(${album.id})`);
+    updateButton.setAttribute('onclick', `updateUser(${JSON.stringify(album)})`);
     buttons.push(updateButton);
 
     let deleteButton = document.createElement('BUTTON');
     deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>'; 
     deleteButton.classList.add('delete-user');
-    deleteButton.setAttribute('onclick', `deleteUser(${album.id})`);
+    deleteButton.setAttribute('onclick', `deleteUser(${JSON.stringify(album)})`);
     buttons.push(deleteButton);
     return buttons;
 }
 
-function createTable(album) {
+function createTable(album) { //pass the album object to create the table 
     let table = document.getElementsByClassName('album-table')[0],
         row = table.insertRow(0);
    
@@ -85,7 +85,7 @@ function create() {
     document.getElementsByClassName('page')[0].classList.add(popup);
 }
 
-async function jsonAddAlbum(album) {
+async function jsonAddAlbum(album) { //pass the album object to perform the post request
     let jsonAlbum = JSON.stringify(album);
     console.log(jsonAlbum);
     try {
@@ -127,9 +127,11 @@ function addAlbum() {
         if (tag.id == 'userID' && tag.value != ''){
             album.userId = +tag.value;
             flag++;
+            setTimeout(() => tag.value = '', 2000);
         } else if (tag.id == 'title' && tag.value != ''){
             album.title = tag.value.toLowerCase();
             flag++;
+            setTimeout(() => tag.value = '', 2000);
         }         
     });
 
@@ -159,7 +161,6 @@ async function searchAlbum() {
     }
 }
 
-
 function loadMore() {
     document.getElementsByClassName('loader-bar')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
@@ -178,14 +179,14 @@ function loadMore() {
     }
 }
 
-function displayAlbum(album) {
+function displayAlbum(album) { //pass the album object display the album contents
     let data = `<h4 class="view-id">ID: ${album.id}</h4>
                 <h4 class="view-id">User ID: ${album.userId}</h4>
                 <h4 class="view-title">Title: ${album.title}</h4>`;
     return data;  
 }
 
-async function profile(id) {
+async function profile(id) { //pass the album id to fetch the profile photo
     let response = await fetch(`https://jsonplaceholder.typicode.com/albums/${id}/photos`);
     let profile = await response.json();
     if (profile.length != 0){
@@ -193,18 +194,16 @@ async function profile(id) {
     }
 }
 
-function viewUser(id) {
+function viewUser(album) { //pass the album object display the album contents
     document.getElementsByClassName('profile-photo')[0].src = '../images/user-profile.webp';
     document.getElementsByClassName('view-album')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
-    let album = albums.find(album => album.id == id);
-    profile(id);
+    profile(album.id);
     document.getElementsByClassName('album-content')[0].innerHTML = displayAlbum(album);    
 }
 
-function updateUser(id) {
-    let album = albums.find(album => album.id == id);
-    currentId = id;
+function updateUser(album) { //pass the album object update the album contents
+    currentId = album.id;
     document.getElementsByClassName('update-album')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
     
@@ -222,7 +221,7 @@ function updateUser(id) {
     });
 }
 
-async function jsonUpdateAlbum(album) {
+async function jsonUpdateAlbum(album) { //pass the album object to perform patch request
     let jsonAlbum = JSON.stringify(album);
     try{
         let response = await fetch(`${url}/${currentId}`, {
@@ -275,8 +274,7 @@ function updateAlbum() {
     }
 }
 
-function deleteUser(id) {
-    let album = albums.find(album => album.id === id);
+function deleteUser(album) { //pass the album object delete the album
     document.getElementsByClassName('delete-album')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);  
     currentId = album.id;
@@ -308,43 +306,5 @@ async function deleteAlbum() {
     } catch (e) {
         console.log(e);
     }
-}
-
-function sorting() {
-    document.getElementsByClassName('album-table')[0].innerHTML = '';
-    albumsDisplay.map(createTable);
-    if (albums.length != albumsDisplay.length) {
-        document.getElementsByClassName('load-button')[0].classList.remove(displayNone);
-    }
-}
-
-function sortIdAsc() {
-    albumsDisplay.sort((a, b) => b.id - a.id);
-    sorting();
-}
-
-function sortIdDesc() {
-    albumsDisplay.sort((a, b) => a.id - b.id);
-    sorting();
-}
-
-function sortUserIdAsc() {
-    albumsDisplay.sort((a, b) => b.userId - a.userId);
-    sorting();
-}
-
-function sortUserIdDesc() {
-    albumsDisplay.sort((a, b) => a.userId - b.userId);
-    sorting();
-}
-
-function sortTitleAsc() {
-    albumsDisplay.sort((a, b) => b.title.localeCompare(a.title));
-    sorting();
-}
-
-function sortTitleDesc() {
-    albumsDisplay.sort((a, b) => a.title.localeCompare(b.title));
-    sorting();
 }
 
