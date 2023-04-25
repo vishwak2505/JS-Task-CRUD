@@ -92,7 +92,7 @@ async function getAlbums() {
     getAlbums();
 })();
 
-function closePopup(className) {
+function closePopup(className) { //pass the div class to close popup
     document.getElementsByClassName(className)[0].classList.add(displayNone);
     document.getElementsByClassName('page')[0].classList.remove(popup);
 }
@@ -106,7 +106,6 @@ async function searchAlbum() {
     let titleTag = document.getElementById('search');
     let title = titleTag.value.trim();
     if (title.length <= 2) {
-        // titleTag.value = title;
         return;
     }
     document.getElementsByClassName('create-album')[0].classList.add(displayNone);

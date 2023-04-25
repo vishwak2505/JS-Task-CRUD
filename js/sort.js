@@ -1,4 +1,4 @@
-function clearSort(header) {
+function clearSort(header) { //pass the header that is being sorted and displayed
     Object.keys(sortingFields).forEach(field => sortingFields[field].checked = false);
     sortingFields[header].checked = true;
 }
