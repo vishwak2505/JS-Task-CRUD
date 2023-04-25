@@ -6,12 +6,30 @@ let currentId;
 let url = "https://jsonplaceholder.typicode.com/albums";
 let position = -20;
 let sortingFields = {
-    AscId: false,
-    DescId: false,
-    AscUserId: false,
-    DescUserId: false,
-    AscTitle: false,
-    DescTitle: false
+    ascId: { 
+        tag: 'id',
+        checked: false,
+    },
+    descId: { 
+        tag: 'id',
+        checked: true,
+    },
+    ascUserId: { 
+        tag: 'userId',
+        checked: false,
+    },
+    descUserId: { 
+        tag: 'userId',
+        checked: false,
+    },
+    ascTitle: { 
+        tag: 'title',
+        checked: false,
+    },
+    descTitle: { 
+        tag: 'title',
+        checked: false,
+    },
 }
 function createButtons(album) { //pass the album object to create buttons 
     let buttons = [];
@@ -88,7 +106,7 @@ async function searchAlbum() {
     let titleTag = document.getElementById('search');
     let title = titleTag.value.trim();
     if (title.length <= 2) {
-        titleTag.value = '';
+        // titleTag.value = title;
         return;
     }
     document.getElementsByClassName('create-album')[0].classList.add(displayNone);
@@ -107,7 +125,7 @@ async function searchAlbum() {
 }
 
 function loadMore() {
-    let sortingField = String(Object.keys(sortingFields).find(key => sortingFields[key] == true));
+    let sortingField = String(Object.keys(sortingFields).find(key => sortingFields[key].checked == true));
     document.getElementsByClassName('loader-bar')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
     setTimeout( () => {
@@ -123,25 +141,20 @@ function loadMore() {
     document.getElementsByClassName('load-button')[0].innerHTML = 'Load More...';
     document.getElementsByClassName('album-table')[0].innerHTML = '';
     albumsDisplay = albums.slice(position);
-    console.log(sortingField);
-    if (sortingField != 'undefined') {
-        switch (sortingField){
-            case 'AscId': sortIdAsc();
-                        break;
-            case 'DescId': sortIdDesc();
-                         break;
-            case 'AscUserId': sortUserIdAsc();
+    switch (sortingField){
+        case 'ascId':       sortAsc('ascId');
                             break;
-            case 'DescUserId': sortUserIdDesc();
-                             break;
-            case 'AscTitle': sortTitleAsc();
-                           break;
-            case 'DescTitle': sortTitleDesc();
+        case 'descId':      sortDesc('descId');
                             break;
-        }  
-    } else {
-        albumsDisplay.map(createTable);
-    }
+        case 'ascUserId':   sortAsc('ascUserId');
+                            break;
+        case 'descUserId':  sortDesc('descUserId');
+                            break;
+        case 'ascTitle':    sortAsc('ascTitle');
+                            break;
+        case 'descTitle':   sortDesc('descTitle');
+                            break;
+    }  
     if (albums.length == albumsDisplay.length) {
         document.getElementsByClassName('load-button')[0].classList.add(displayNone);
         position = -albums.length;

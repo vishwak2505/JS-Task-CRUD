@@ -1,5 +1,6 @@
-function clearSort() {
-    Object.keys(sortingFields).forEach(field => sortingFields[field] = false);
+function clearSort(header) {
+    Object.keys(sortingFields).forEach(field => sortingFields[field].checked = false);
+    sortingFields[header].checked = true;
 }
 
 function sorting() {
@@ -10,44 +11,26 @@ function sorting() {
     }
 }
 
-function sortIdAsc() {
-    albumsDisplay.sort((a, b) => b.id - a.id);
-    clearSort();
-    sortingFields.AscId = true;
-    sorting();
+function sortAsc(header) {
+    let tag = sortingFields[header].tag;
+    switch (tag){
+        case 'id':
+        case 'userId':  albumsDisplay.sort((a, b) => b[tag] - a[tag]);
+                        break;  
+        case 'title' :  albumsDisplay.sort((a, b) => b[tag].localeCompare(a[tag]));
+    }
+        clearSort(header);
+        sorting();
 }
 
-function sortIdDesc() {
-    albumsDisplay.sort((a, b) => a.id - b.id);
-    clearSort();
-    sortingFields.DescId = true;
-    sorting();
-}
-
-function sortUserIdAsc() {
-    albumsDisplay.sort((a, b) => b.userId - a.userId);
-    clearSort();
-    sortingFields.AscUserId = true;
-    sorting();
-}
-
-function sortUserIdDesc() {
-    albumsDisplay.sort((a, b) => a.userId - b.userId);
-    clearSort();
-    sortingFields.DescUserId = true;
-    sorting();
-}
-
-function sortTitleAsc() {
-    albumsDisplay.sort((a, b) => b.title.localeCompare(a.title));
-    clearSort();
-    sortingFields.AscTitle = true;
-    sorting();
-}
-
-function sortTitleDesc() {
-    albumsDisplay.sort((a, b) => a.title.localeCompare(b.title));
-    clearSort();
-    sortingFields.DescTitle = true;
+function sortDesc(header) {
+    let tag = sortingFields[header].tag;
+    switch (tag){
+        case 'id':
+        case 'userId':  albumsDisplay.sort((a, b) => a[tag] - b[tag]);
+                        break;  
+        case 'title' :  albumsDisplay.sort((a, b) => a[tag].localeCompare(b[tag]));
+    }
+    clearSort(header);
     sorting();
 }
