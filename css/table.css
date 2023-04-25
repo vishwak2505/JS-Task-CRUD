@@ -27,12 +27,12 @@
     width: 100%;
 }
 
-.album-table-oddrow{
+.album-table tr:nth-child(even){
     background-color: aliceblue;
     height: 5vh;
 }
 
-.album-table-evenrow{
+.album-table tr:nth-child(odd){
     background-color: rgb(186, 201, 214);
     height: 5vh;
 }

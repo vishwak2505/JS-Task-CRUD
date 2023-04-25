@@ -4,7 +4,6 @@ let displayNone = 'display-none'; //CSS property
 let popup = 'blur-background'; //CSS property
 let currentId;
 let url = "https://jsonplaceholder.typicode.com/albums";
-let flag = 0;
 let position = -20;
 let sortingFields = {
     AscId: false,
@@ -57,14 +56,6 @@ function createTable(album) { //pass the album object to create the table
     let buttons = createButtons(album);
 
     buttons.forEach(button => c4.appendChild(button));
-
-    if (flag == 0){
-        row.classList.add('album-table-oddrow');  
-        flag = 1;
-    } else {
-        row.classList.add('album-table-evenrow');  
-        flag = 0;
-    }
 }
 
 async function getAlbums() {
@@ -76,6 +67,7 @@ async function getAlbums() {
     } else {
         alert("END");
     }
+    closePopup('loader-bar');
 }
 
 (function init() {
@@ -93,17 +85,16 @@ function create() {
 }
 
 async function searchAlbum() {
-    let title = document.getElementById('search').value;
+    let titleTag = document.getElementById('search');
+    let title = titleTag.value.trim();
     if (title.length <= 2) {
-
+        titleTag.value = '';
         return;
     }
     document.getElementsByClassName('create-album')[0].classList.add(displayNone);
     document.getElementsByClassName('loader-bar')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
-    setTimeout( () => {
-        closePopup('loader-bar');
-    }, 1000);
+    setTimeout( () => {closePopup('loader-bar');}, 1000);
     albumsDisplay = albums.filter((album) => album.title.includes(title));
     document.getElementsByClassName('album-table')[0].innerHTML = '';
     document.getElementsByClassName('load-button')[0].classList.remove(displayNone);
@@ -116,18 +107,41 @@ async function searchAlbum() {
 }
 
 function loadMore() {
+    let sortingField = String(Object.keys(sortingFields).find(key => sortingFields[key] == true));
     document.getElementsByClassName('loader-bar')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
     setTimeout( () => {
         closePopup('loader-bar');
     }, 1000); 
-    document.getElementById('search').value = '';
+    let search = document.getElementById('search');
+    if (search.value == '') {
+        position -= 20;
+    } else {
+        search.value = '';
+    }
     document.getElementsByClassName('create-album')[0].classList.remove(displayNone);
     document.getElementsByClassName('load-button')[0].innerHTML = 'Load More...';
     document.getElementsByClassName('album-table')[0].innerHTML = '';
-    position -= 20;
     albumsDisplay = albums.slice(position);
-    albumsDisplay.map(createTable);
+    console.log(sortingField);
+    if (sortingField != 'undefined') {
+        switch (sortingField){
+            case 'AscId': sortIdAsc();
+                        break;
+            case 'DescId': sortIdDesc();
+                         break;
+            case 'AscUserId': sortUserIdAsc();
+                            break;
+            case 'DescUserId': sortUserIdDesc();
+                             break;
+            case 'AscTitle': sortTitleAsc();
+                           break;
+            case 'DescTitle': sortTitleDesc();
+                            break;
+        }  
+    } else {
+        albumsDisplay.map(createTable);
+    }
     if (albums.length == albumsDisplay.length) {
         document.getElementsByClassName('load-button')[0].classList.add(displayNone);
         position = -albums.length;

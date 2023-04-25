@@ -34,25 +34,27 @@ function addAlbum() {
             id: nextId,
             title: ''
         },
-        flag = 0;      
+        inputs = 0,
+        tagValue = [];      
 
     Array.from(tags).forEach(tag => {
         if (tag.id == 'userID' && tag.value != ''){
             album.userId = +tag.value;
-            flag++;
-            setTimeout(() => tag.value = '', 2000);
+            inputs++;
+            tagValue.push(tag);
         } else if (tag.id == 'title' && tag.value != ''){
             album.title = tag.value.toLowerCase();
-            flag++;
-            setTimeout(() => tag.value = '', 2000);
+            inputs++;
+            tagValue.push(tag);
         }         
     });
 
-    if (flag == 2){
+    if (inputs == 2){
         document.getElementsByClassName('add-progress')[0].classList.remove(displayNone);
         jsonAddAlbum(album);
-    } else {
-        console.log('fill');
+        setTimeout(() => {
+            tagValue.forEach(tag => tag.value = '');
+        }, 2000);
     }
 }
 
@@ -129,7 +131,7 @@ async function jsonUpdateAlbum(album) { //pass the album object to perform patch
 }
 
 function updateAlbum() {
-    let flag = 0;
+    let inputs = 0;
     let album = albums.find(album => album.id === currentId);
     let form = document.getElementsByClassName('update-form')[0],
         tags = form.children;
@@ -137,14 +139,14 @@ function updateAlbum() {
     Array.from(tags).forEach(tag => {
         if (tag.id == 'userID' && tag.value != '' && tag.value != album.userId){
             album.userId = +tag.value;
-            flag = 1;
+            inputs = 1;
         } else if (tag.id == 'title' && tag.value != '' && tag.value != album.title){
             album.title = tag.value.toLowerCase();
-            flag = 1;
+            inputs = 1;
         }         
     });
 
-    if (flag == 1){
+    if (inputs == 1){
         document.getElementsByClassName('update-progress')[0].classList.remove(displayNone);
         document.getElementsByClassName('submit-update')[0].disabled = false;
         jsonUpdateAlbum(album);
