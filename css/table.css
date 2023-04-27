@@ -14,7 +14,8 @@
 .album-table-head{
     height: 2vh;
     width: 85%;
-    font-size: 2vh;
+    font-size: 2.2vh;
+    font-weight: bold;
     background-color: rgba(96, 98, 90, 67%);
 }
 

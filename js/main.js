@@ -6,31 +6,58 @@ let currentId;
 let url = "https://jsonplaceholder.typicode.com/albums";
 let position = -20;
 let sortingFields = {
-    ascId: { 
-        tag: 'id',
-        checked: false,
-    },
-    descId: { 
-        tag: 'id',
-        checked: true,
-    },
-    ascUserId: { 
-        tag: 'userId',
-        checked: false,
-    },
-    descUserId: { 
-        tag: 'userId',
-        checked: false,
-    },
-    ascTitle: { 
-        tag: 'title',
-        checked: false,
-    },
-    descTitle: { 
-        tag: 'title',
-        checked: false,
-    },
+    columnIndex: 'id',
+    order: 'desc',
 }
+
+function createHead(album) {
+    let table = document.getElementsByClassName('album-table-head')[0],
+        row = table.insertRow(),
+        columnName = Object.keys(album); 
+
+    for (let i = 0; i < 3; i++) {
+        let pos = -1;
+        if (columnName[i] == 'id') {
+            pos = 0;
+        } 
+        let c = row.insertCell(pos);
+        c.classList.add(`album-table-${columnName[i].toLowerCase()}`);
+        let headTitle = document.createElement('DIV');
+        headTitle.innerHTML = columnName[i].toUpperCase();
+        headTitle.classList.add('head-title');
+        let sortButtons = document.createElement('DIV');
+        sortButtons.classList.add('sort-options');
+        let sortAscButton = document.createElement('BUTTON');
+        let sortAscClasses = ['sort-button', 'asc'];
+        sortAscButton.innerHTML = '<i class="sort-icon fa-solid fa-sort-up"></i>';
+        sortAscButton.classList.add(...sortAscClasses);
+        sortAscButton.addEventListener('click', () => {
+            sortingFields.columnIndex = columnName[i];
+            sortingFields.order = 'asc';
+            sortData(albumsDisplay, sortingFields.columnIndex, sortingFields.order);
+        });
+        let sortDescButton = document.createElement('BUTTON');
+        let sortDescClasses = ['sort-button', 'desc'];
+        sortDescButton.innerHTML = '<i class="sort-icon fa-solid fa-caret-down"></i>';
+        sortDescButton.classList.add(...sortDescClasses);
+        sortDescButton.addEventListener('click', () => {
+            sortingFields.columnIndex = columnName[i];
+            sortingFields.order = 'desc';
+            sortData(albumsDisplay, sortingFields.columnIndex, sortingFields.order);
+        });
+        sortButtons.appendChild(sortAscButton);
+        sortButtons.appendChild(sortDescButton);
+        c.appendChild(headTitle);
+        c.appendChild(sortButtons);
+    }   
+    let c = row.insertCell(-1);
+    c.classList.add('album-table-options');
+    c.innerHTML = `<div class="head-title">
+                    Options
+                </div>`;
+
+}
+
 function createButtons(album) { //pass the album object to create buttons 
     let buttons = [];
     let viewButton = document.createElement('BUTTON');
@@ -55,31 +82,29 @@ function createButtons(album) { //pass the album object to create buttons
 
 function createTable(album) { //pass the album object to create the table 
     let table = document.getElementsByClassName('album-table')[0],
-        row = table.insertRow(0);
-   
-    let c1 = row.insertCell(0),
-        c2 = row.insertCell(1),
-        c3 = row.insertCell(2),
-        c4 = row.insertCell(3);
+        row = table.insertRow(0),
+        columnName = Object.keys(album); 
 
-    c1.classList.add('album-table-id');    
-    c2.classList.add('album-table-userid');
-    c3.classList.add('album-table-title');
-    c4.classList.add('album-table-options');
-
-    c1.innerText = album.id;
-    c2.innerText = album.userId;
-    c3.innerText = album.title;
-
+    for (let i = 0; i < 3; i++) {
+        let pos = -1;
+        if (columnName[i] == 'id'){
+            pos = 0;
+        }
+        let c = row.insertCell(pos);
+        c.classList.add(`album-table-${columnName[i].toLowerCase()}`);  
+        c.innerText = album[columnName[i]]; 
+    }
+    let c = row.insertCell(-1);    
+    c.classList.add('album-table-options');
     let buttons = createButtons(album);
-
-    buttons.forEach(button => c4.appendChild(button));
+    buttons.forEach(button => c.appendChild(button));
 }
 
 async function getAlbums() {
     let response = await fetch(url);
     albums = await response.json();
     if (albums.length != 0 ){
+        createHead(albums[0]);
         albumsDisplay = albums.slice(position);
         albumsDisplay.map(createTable);
     } else {
@@ -124,7 +149,7 @@ async function searchAlbum() {
 }
 
 function loadMore() {
-    let sortingField = String(Object.keys(sortingFields).find(key => sortingFields[key].checked == true));
+    let {columnIndex, order} = sortingFields;
     document.getElementsByClassName('loader-bar')[0].classList.remove(displayNone);
     document.getElementsByClassName('page')[0].classList.add(popup);
     setTimeout( () => {
@@ -139,26 +164,11 @@ function loadMore() {
     document.getElementsByClassName('create-album')[0].classList.remove(displayNone);
     document.getElementsByClassName('load-button')[0].innerHTML = 'Load More...';
     document.getElementsByClassName('album-table')[0].innerHTML = '';
-    albumsDisplay = albums.slice(position);
-    switch (sortingField){
-        case 'ascId':       sortAsc('ascId');
-                            break;
-        case 'descId':      sortDesc('descId');
-                            break;
-        case 'ascUserId':   sortAsc('ascUserId');
-                            break;
-        case 'descUserId':  sortDesc('descUserId');
-                            break;
-        case 'ascTitle':    sortAsc('ascTitle');
-                            break;
-        case 'descTitle':   sortDesc('descTitle');
-                            break;
-    }  
+    albumsSort = albums.slice(position);
+    albumsDisplay = sortData(albumsSort, columnIndex, order);  
     if (albums.length == albumsDisplay.length) {
         document.getElementsByClassName('load-button')[0].classList.add(displayNone);
         position = -albums.length;
     }
 }
-
-
 

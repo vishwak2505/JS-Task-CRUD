@@ -1,36 +1,32 @@
-function clearSort(header) { //pass the header that is being sorted and displayed
-    Object.keys(sortingFields).forEach(field => sortingFields[field].checked = false);
-    sortingFields[header].checked = true;
-}
-
-function sorting() {
+function sorting(albumsSort) {
     document.getElementsByClassName('album-table')[0].innerHTML = '';
-    albumsDisplay.map(createTable);
-    if (albums.length != albumsDisplay.length) {
+    albumsSort.map(createTable);
+    if (albums.length != albumsSort.length) {
         document.getElementsByClassName('load-button')[0].classList.remove(displayNone);
     }
 }
 
-function sortAsc(header) {
-    let tag = sortingFields[header].tag;
-    switch (tag){
-        case 'id':
-        case 'userId':  albumsDisplay.sort((a, b) => b[tag] - a[tag]);
-                        break;  
-        case 'title' :  albumsDisplay.sort((a, b) => b[tag].localeCompare(a[tag]));
+function sortData(albumsSort, columnIndex, order) {
+    if (albumsSort.length == 0){
+        return;
     }
-        clearSort(header);
-        sorting();
+    albumsSort.sort((a, b) => { 
+        if (typeof a[columnIndex] == 'number' ){
+            if (order == 'asc') {
+                return b[columnIndex] - a[columnIndex];
+            } else if (order == 'desc'){
+                return a[columnIndex] - b[columnIndex];
+            }   
+        } else if (typeof a[columnIndex] == 'string'){
+            if (order == 'asc') {
+                return b[columnIndex].localeCompare(a[columnIndex]);
+            } else if (order == 'desc'){
+                return a[columnIndex].localeCompare(b[columnIndex]);
+            }
+        }
+    });
+    sorting(albumsSort);
+    return albumsSort;
 }
 
-function sortDesc(header) {
-    let tag = sortingFields[header].tag;
-    switch (tag){
-        case 'id':
-        case 'userId':  albumsDisplay.sort((a, b) => a[tag] - b[tag]);
-                        break;  
-        case 'title' :  albumsDisplay.sort((a, b) => a[tag].localeCompare(b[tag]));
-    }
-    clearSort(header);
-    sorting();
-}
+
