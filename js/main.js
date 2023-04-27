@@ -15,7 +15,7 @@ function createHead(album) {
         row = table.insertRow(),
         columnName = Object.keys(album); 
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < columnName.length; i++) {
         let pos = -1;
         if (columnName[i] == 'id') {
             pos = 0;
@@ -93,7 +93,7 @@ function createTable(album) { //pass the album object to create the table
         row = table.insertRow(0),
         columnName = Object.keys(album); 
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < columnName.length; i++) {
         let pos = -1;
         if (columnName[i] == 'id'){
             pos = 0;
