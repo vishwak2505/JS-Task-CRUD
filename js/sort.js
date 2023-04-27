@@ -1,11 +1,3 @@
-function sorting(albumsSort) {
-    document.getElementsByClassName('album-table')[0].innerHTML = '';
-    albumsSort.map(createTable);
-    if (albums.length != albumsSort.length) {
-        document.getElementsByClassName('load-button')[0].classList.remove(displayNone);
-    }
-}
-
 function sortData(albumsSort, columnIndex, order) {
     if (albumsSort.length == 0){
         return;
@@ -25,7 +17,11 @@ function sortData(albumsSort, columnIndex, order) {
             }
         }
     });
-    sorting(albumsSort);
+    document.getElementsByClassName('album-table')[0].innerHTML = '';
+    albumsSort.map(createTable);
+    if (albums.length != albumsSort.length) {
+        document.getElementsByClassName('load-button')[0].classList.remove(displayNone);
+    }
     return albumsSort;
 }
 
