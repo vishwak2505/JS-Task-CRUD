@@ -22,11 +22,14 @@ function createHead(album) {
         } 
         let c = row.insertCell(pos);
         c.classList.add(`album-table-${columnName[i].toLowerCase()}`);
+
         let headTitle = document.createElement('DIV');
         headTitle.innerHTML = columnName[i].toUpperCase();
         headTitle.classList.add('head-title');
+        
         let sortButtons = document.createElement('DIV');
         sortButtons.classList.add('sort-options');
+        
         let sortAscButton = document.createElement('BUTTON');
         let sortAscClasses = ['sort-button', 'asc'];
         sortAscButton.innerHTML = '<i class="sort-icon fa-solid fa-sort-up"></i>';
@@ -36,6 +39,7 @@ function createHead(album) {
             sortingFields.order = 'asc';
             sortData(albumsDisplay, sortingFields.columnIndex, sortingFields.order);
         });
+        
         let sortDescButton = document.createElement('BUTTON');
         let sortDescClasses = ['sort-button', 'desc'];
         sortDescButton.innerHTML = '<i class="sort-icon fa-solid fa-caret-down"></i>';
@@ -45,8 +49,10 @@ function createHead(album) {
             sortingFields.order = 'desc';
             sortData(albumsDisplay, sortingFields.columnIndex, sortingFields.order);
         });
+        
         sortButtons.appendChild(sortAscButton);
         sortButtons.appendChild(sortDescButton);
+        
         c.appendChild(headTitle);
         c.appendChild(sortButtons);
     }   
@@ -60,6 +66,7 @@ function createHead(album) {
 
 function createButtons(album) { //pass the album object to create buttons 
     let buttons = [];
+    
     let viewButton = document.createElement('BUTTON');
     viewButton.innerHTML = '<i class="fa-regular fa-eye"></i>'; 
     viewButton.classList.add('view-user');
@@ -77,6 +84,7 @@ function createButtons(album) { //pass the album object to create buttons
     deleteButton.classList.add('delete-user');
     deleteButton.addEventListener('click', () => deleteUser(album));
     buttons.push(deleteButton);
+    
     return buttons;
 }
 
@@ -94,8 +102,10 @@ function createTable(album) { //pass the album object to create the table
         c.classList.add(`album-table-${columnName[i].toLowerCase()}`);  
         c.innerText = album[columnName[i]]; 
     }
+    
     let c = row.insertCell(-1);    
     c.classList.add('album-table-options');
+    
     let buttons = createButtons(album);
     buttons.forEach(button => c.appendChild(button));
 }
